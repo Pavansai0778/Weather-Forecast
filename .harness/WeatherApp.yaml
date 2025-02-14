@@ -76,7 +76,9 @@ pipeline:
                           mkdir Artifacts
 
 
-                          cp -r .[!.]* * Artifacts/
+                          # cp -r .[!.]* * Artifacts/
+
+                          rsync -av --progress --exclude 'Artifacts' ./ Artifacts/
 
 
                           ls -la
