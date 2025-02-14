@@ -96,3 +96,44 @@ pipeline:
                     region: ap-south-1
                     bucket: sample-storage-007
                     sourcePath: Artifacts-<+pipeline.sequenceId>.zip
+    - stage:
+        name: Approval for Deployment
+        identifier: Approval_for_Deployment
+        description: ""
+        type: Approval
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: CustomApproval
+                  name: Approval
+                  identifier: Approval
+                  timeout: 1d
+                  spec:
+                    shell: Bash
+                    retryInterval: 10s
+                    scriptTimeout: 10m
+                    source:
+                      type: Inline
+                      spec:
+                        script: sleep 30
+                    environmentVariables: []
+                    approvalCriteria:
+                      type: KeyValues
+                      spec:
+                        matchAnyCondition: false
+                        conditions:
+                          - key: pavan
+                            operator: equals
+                            value: "true"
+                    rejectionCriteria:
+                      type: KeyValues
+                      spec:
+                        matchAnyCondition: false
+                        conditions: []
+                    onDelegate: true
+                    outputVariables:
+                      - name: pavan
+                        type: String
+                        value: "true"
+        tags: {}
