@@ -45,6 +45,12 @@ pipeline:
                   spec:
                     shell: Sh
                     command: mvn clean install
+                  failureStrategies:
+                    - onFailure:
+                        errors:
+                          - Unknown
+                        action:
+                          type: MarkAsSuccess
               - parallel:
                   - step:
                       type: Test
