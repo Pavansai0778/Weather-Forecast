@@ -75,6 +75,14 @@ pipeline:
                         command: |-
                           mkdir Artifacts
 
+
+                          cp -r .[!.]* * Artifacts/
+
+
+                          ls -la
+
+                          cd Artifacts
+
                           ls -la
               - step:
                   type: S3Upload
