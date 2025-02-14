@@ -80,7 +80,7 @@ pipeline:
 
                           rsync -av --progress --exclude 'Artifacts' ./ Artifacts/
 
-                          zip -r Artifacts.zip Artifacts
+                          zip -r Artifacts-<+pipeline.sequenceId>.zip Artifacts
 
                           ls -la
 
@@ -95,4 +95,4 @@ pipeline:
                     connectorRef: sample
                     region: ap-south-1
                     bucket: sample-storage-007
-                    sourcePath: Artifacts.zip
+                    sourcePath: Artifacts-<+pipeline.sequenceId>.zip
