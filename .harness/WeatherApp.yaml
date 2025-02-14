@@ -28,7 +28,7 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Run_1
+                  name: Check the Code Base
                   identifier: Run_1
                   spec:
                     shell: Sh
@@ -38,3 +38,37 @@ pipeline:
 
 
                       pwd
+              - step:
+                  type: Run
+                  name: Build Mvn
+                  identifier: Build_Mvn
+                  spec:
+                    shell: Sh
+                    command: mvn clean install
+              - parallel:
+                  - step:
+                      type: Test
+                      name: Test_1
+                      identifier: Test_1
+                      spec:
+                        shell: Sh
+                        command: mvn test
+                        intelligenceMode: true
+                  - step:
+                      type: Run
+                      name: Copy files
+                      identifier: Copy_files
+                      spec:
+                        shell: Sh
+                        command: |-
+                          mkdir Artifacts
+                          mv * Artifacts
+              - step:
+                  type: S3Upload
+                  name: S3Upload_1
+                  identifier: S3Upload_1
+                  spec:
+                    connectorRef: sample
+                    region: ap-south-1
+                    bucket: sample-storage-007
+                    sourcePath: Artifacts
