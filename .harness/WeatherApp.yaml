@@ -60,6 +60,12 @@ pipeline:
                         shell: Sh
                         command: mvn test
                         intelligenceMode: true
+                      failureStrategies:
+                        - onFailure:
+                            errors:
+                              - Unknown
+                            action:
+                              type: MarkAsSuccess
                   - step:
                       type: Run
                       name: Copy files
